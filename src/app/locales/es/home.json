@@ -1,0 +1,9 @@
+{
+  "title": "🏠 Inicio",
+  "description": "Bienvenido a tu nueva aplicación Next.js con Rollbar, Auth0 y next-i18n-router!",
+  "logout": "Cerrar sesión",
+  "login": "Iniciar sesión",
+  "protected": "Ir a la página protegida",
+  "loading": "Cargando...",
+  "profileNotAvailable": "Perfil no disponible"
+}

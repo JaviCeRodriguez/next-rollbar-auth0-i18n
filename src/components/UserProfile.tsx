@@ -1,13 +1,15 @@
 "use client";
 
-import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from "next/image";
+import { UserProfile as User } from "@auth0/nextjs-auth0/client";
+import { useTranslation } from "react-i18next";
 
-export default function UserProfile() {
-  const { user, error, isLoading } = useUser();
+type Props = {
+  user?: User;
+};
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+const UserProfile = ({ user }: Props) => {
+  const { t } = useTranslation("home");
 
   return user ? (
     <div className="flex gap-4 border border-slate-500 p-6 rounded-xl hover:bg-slate-500 transition-all select-none">
@@ -26,6 +28,8 @@ export default function UserProfile() {
       </div>
     </div>
   ) : (
-    <div>Profile not available</div>
+    <div>{t("profileNotAvailable")}</div>
   );
-}
+};
+
+export default UserProfile;

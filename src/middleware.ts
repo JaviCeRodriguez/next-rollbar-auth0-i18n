@@ -2,7 +2,9 @@ import {
   getSession,
   withMiddlewareAuthRequired,
 } from "@auth0/nextjs-auth0/edge";
+import { i18nRouter } from "next-i18n-router";
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import i18nConfig from "../i18nConfig";
 
 const privatePaths = ["/protected"];
 
@@ -13,11 +15,15 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
   const session = await getSession(request, response);
   const { pathname } = request.nextUrl;
 
-  if (privatePaths.some((path) => pathname.startsWith(path))) {
-    return authMiddleware(request, event);
+  if (session) {
+    return i18nRouter(request, i18nConfig);
   }
 
-  return response;
+  if (privatePaths.some((path) => pathname.startsWith(path))) {
+    return authMiddleware(request, event);
+  } else {
+    return i18nRouter(request, i18nConfig);
+  }
 }
 
 export const config = {
