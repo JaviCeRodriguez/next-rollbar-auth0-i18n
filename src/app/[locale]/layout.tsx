@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { dir } from "i18next";
+import { Provider as RollbarProvider } from "@rollbar/react";
 import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { clientConfig } from "@/lib/rollbar";
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -22,18 +24,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" dir={dir("en")}>
-      <UserProvider>
-        <body className={inter.className}>
-          <div className="min-h-screen flex flex-col justify-between">
-            <div className="flex flex-col">
-              <Navbar />
-              {children}
+    <RollbarProvider config={clientConfig}>
+      <html lang="en" dir={dir("en")}>
+        <UserProvider>
+          <body className={inter.className}>
+            <div className="min-h-screen flex flex-col justify-between">
+              <div className="flex flex-col">
+                <Navbar />
+                {children}
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </body>
-      </UserProvider>
-    </html>
+          </body>
+        </UserProvider>
+      </html>
+    </RollbarProvider>
   );
 }

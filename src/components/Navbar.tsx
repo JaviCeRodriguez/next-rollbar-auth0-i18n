@@ -10,6 +10,8 @@ const Navbar = () => {
   const locale = useCurrentLocale(i18nConfig);
 
   const changeLocale = () => {
+    throw new Error("sarasa");
+
     const newLocale = locale === "en" ? "es" : "en";
     if (locale === "en") {
       const newPathname = `/${newLocale}${currentPathname}`;
