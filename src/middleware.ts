@@ -1,33 +1,10 @@
-import {
-  getSession,
-  withMiddlewareAuthRequired,
-} from "@auth0/nextjs-auth0/edge";
-import { i18nRouter } from "next-i18n-router";
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import i18nConfig from "../i18nConfig";
-import { serverInstance as rollbar } from "./lib/rollbar"; // Assuming your Rollbar initialization
+import { stackMiddlewares } from "./middlewares/stackHandler";
+import { withAuth0 } from "./middlewares/withAuth0";
+import { withRollbar } from "./middlewares/withRollbar";
+import { withi18n } from "./middlewares/withi18n";
 
-const privatePaths = ["/protected"];
-
-const authMiddleware = withMiddlewareAuthRequired();
-
-export async function middleware(request: NextRequest, event: NextFetchEvent) {
-  const response = NextResponse.next();
-  const session = await getSession(request, response);
-  const { pathname } = request.nextUrl;
-
-  rollbar.configure({ payload: { context: pathname } });
-
-  if (session) {
-    return i18nRouter(request, i18nConfig);
-  }
-
-  if (privatePaths.some((path) => pathname.startsWith(path))) {
-    return authMiddleware(request, event);
-  } else {
-    return i18nRouter(request, i18nConfig);
-  }
-}
+const middlewares = [withRollbar, withi18n, withAuth0];
+export default stackMiddlewares(middlewares);
 
 export const config = {
   matcher: [

@@ -9,9 +9,11 @@ const Navbar = () => {
   const currentPathname = usePathname();
   const locale = useCurrentLocale(i18nConfig);
 
-  const changeLocale = () => {
+  const raiseError = () => {
     throw new Error("sarasa");
+  };
 
+  const changeLocale = () => {
     const newLocale = locale === "en" ? "es" : "en";
     if (locale === "en") {
       const newPathname = `/${newLocale}${currentPathname}`;
@@ -29,12 +31,20 @@ const Navbar = () => {
   return (
     <div className="flex justify-between px-4 md:px-10 py-4">
       <h3 className="text-xl font-bold">Demo</h3>
-      <button
-        onClick={changeLocale}
-        className="bg-green-600 hover:bg-green-700 transition-all px-4 py-1 rounded-md font-bold text-xl"
-      >
-        {locale === "en" ? "🇺🇸" : "🇪🇸"}
-      </button>
+      <div className="flex gap-4">
+        <button
+          onClick={raiseError}
+          className="bg-red-600 hover:bg-red-700 transition-all px-4 py-1 rounded-md font-bold text-xl"
+        >
+          🚨
+        </button>
+        <button
+          onClick={changeLocale}
+          className="bg-green-600 hover:bg-green-700 transition-all px-4 py-1 rounded-md font-bold text-xl"
+        >
+          {locale === "en" ? "🇺🇸" : "🇪🇸"}
+        </button>
+      </div>
     </div>
   );
 };
