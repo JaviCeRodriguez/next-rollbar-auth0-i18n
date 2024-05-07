@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { dir } from "i18next";
 import "../globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -22,7 +24,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" dir={dir("en")}>
       <UserProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <div className="min-h-screen flex flex-col justify-between">
+            <div className="flex flex-col">
+              <Navbar />
+              {children}
+            </div>
+            <Footer />
+          </div>
+        </body>
       </UserProvider>
     </html>
   );
