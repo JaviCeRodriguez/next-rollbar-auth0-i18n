@@ -1,9 +1,8 @@
 import { stackMiddlewares } from "./middlewares/stackHandler";
 import { withAuth0 } from "./middlewares/withAuth0";
-import { withRollbar } from "./middlewares/withRollbar";
 import { withi18n } from "./middlewares/withi18n";
 
-const middlewares = [withRollbar, withi18n, withAuth0];
+const middlewares = [withi18n, withAuth0];
 export default stackMiddlewares(middlewares);
 
 export const config = {
